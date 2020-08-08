@@ -1,9 +1,11 @@
 var express = require('express');
 var router = express.Router();
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'MongoDB' });
-});
+const ctrlIndex = require('../controllers/index');
+router.get('/',ctrlIndex.getIndex);
+router.get('/heroes',ctrlIndex.getHeroesIndex);
+router.get('/create-hero',ctrlIndex.getHeroesIndexForm);
+router.post('/create-hero',ctrlIndex.createNewHero);
+
 
 module.exports = router;
