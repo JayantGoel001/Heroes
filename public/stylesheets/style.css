@@ -1,5 +1,8 @@
 body {
-  padding: 50px;
-  margin-left: auto;
-  font: "Encode Sans Condensed";
+  margin: 80px 220px;
+  font-family: "Encode Sans Condensed",sans-serif;
+  cursor: default;
+}
+h1,h2,h3,h4,h5,h6{
+    font-weight: lighter;
 }
