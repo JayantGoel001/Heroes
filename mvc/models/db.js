@@ -5,11 +5,9 @@ let uri = 'mongodb://localhost/HeroesDB';
 mongoose.connect(uri,{useNewUrlParser : true});
 
 mongoose.connection.on('connected',() =>{
-    console.log("===================");
-    console.log("===================");
+    console.log("===============================================================================================");
     console.log(`mongoose connected to ${uri}`);
-    console.log("===================");
-    console.log("===================");
+    console.log("===============================================================================================");
 });
 
 mongoose.connection.on('error',err=>{
@@ -44,3 +42,5 @@ process.on('SIGTERM',()=>{
         process.exit(0);
     });
 });
+
+require('./heroes.js');
