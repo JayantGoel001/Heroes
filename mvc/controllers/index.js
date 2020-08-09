@@ -7,6 +7,9 @@ const getIndex = router.get('/', function(req, res, next) {
 const mongoose = require('mongoose');
 const Hero = mongoose.model('Hero');
 
+let data = require("../../Default-Heroes");
+let heroData = data.heroes;
+
 getHeroesIndex = function(req,res) {
     Hero.find((err,heroes)=>{
         if (err) {
@@ -87,6 +90,20 @@ updateHero = function({params,body},res) {
     });
 }
 
+reset = function(req,res) {
+    Hero.deleteMany({},(err,info)=>{
+        if(err){
+            res.send({error:err});
+        }
+        Hero.insertMany(heroData,(err,info)=>{
+            if(err){
+                res.send({error:err});
+            }
+            res.redirect('/heroes');
+        })
+    })
+}
+
 module.exports = {
     getIndex,
     getHeroesIndex,
@@ -94,5 +111,6 @@ module.exports = {
     createNewHero,
     deleteHero,
     getUpdateForm,
-    updateHero
+    updateHero,
+    reset
 }
