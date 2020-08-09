@@ -1,4 +1,34 @@
 <%- include('partials/header.ejs')%>
-    <!-- <h1>Hall Of Heroes</h1> -->
-    <a href="/create-hero">Create a New Hero</a>
+    <div class="heroes-list">
+        <% for(let i = 0; i < heroes.length; i++) { %>
+
+            <div class="hero">
+                <h2>Name: <%= heroes[i].name %></h2>
+                <h3>Origin: <%= heroes[i].origin %></h3>
+                <p><%= heroes[i].description %></p>
+
+                <ul>
+                    <li>S: <%= heroes[i].stats.strength %></li>
+                    <li>P: <%= heroes[i].stats.perception %></li>
+                    <li>E: <%= heroes[i].stats.endurance %></li>
+                    <li>C: <%= heroes[i].stats.charisma %></li>
+                    <li>I: <%= heroes[i].stats.intelligence %></li>
+                    <li>A: <%= heroes[i].stats.agility %></li>
+                    <li>L: <%= heroes[i].stats.luck %></li>
+                </ul>
+                <%
+                    let {strength:s, perception:p, endurance:e, charisma:c, intelligence:int, agility:a, luck:l} = heroes[i].stats;
+                    let arr = [s, p, e, c, int, a, l];
+                    let overall = arr.reduce((a, b) => a + b, 0);
+                %>
+
+
+                <h3>Overall: <%= overall %></h3>
+                <a href="#">Update</a>
+                <a href="#">Delete</a>
+
+            </div>
+
+        <% } %>
+    </div>
 <%- include('partials/footer.ejs')%>

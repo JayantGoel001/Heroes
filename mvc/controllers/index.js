@@ -8,7 +8,14 @@ const mongoose = require('mongoose');
 const Hero = mongoose.model('Hero');
 
 getHeroesIndex = function(req,res) {
-    res.render('heroes',{title:"Hall Of Heroes"})
+    Hero.find((err,heroes)=>{
+        if (err) {
+            res.send({error:err});
+        }
+        // res.send(heroes);
+        // console.log(heroes);
+        res.render('heroes',{title:"Hall Of Heroes",heroes:heroes});
+    });
 }
 getHeroesIndexForm = function(req,res) {
     res.render('create-a-hero',{title:"Create A Hero"})
@@ -32,7 +39,8 @@ createNewHero = function({body},res) {
         if (err) {
             return res.send({error : err});
         }
-        res.send(newHero);
+        // res.send(newHero);
+        res.redirect('/heroes');
     });
 }
 
