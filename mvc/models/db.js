@@ -2,6 +2,10 @@ const mongoose = require('mongoose');
 
 let uri = 'mongodb://localhost/HeroesDB';
 
+if (process.env.NODE_ENV == 'production') {
+    uri = process.env.MONGODB_URI;
+}
+
 mongoose.connect(uri,{useNewUrlParser : true});
 
 mongoose.connection.on('connected',() =>{
