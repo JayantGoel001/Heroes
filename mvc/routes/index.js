@@ -7,6 +7,8 @@ router.get('/heroes',ctrlIndex.getHeroesIndex);
 router.get('/create-hero',ctrlIndex.getHeroesIndexForm);
 router.post('/create-hero',ctrlIndex.createNewHero);
 router.post('/delete-hero/:heroid',ctrlIndex.deleteHero);
+router.get('/update-hero/:heroid',ctrlIndex.getUpdateForm);
+router.post('/update-hero/:heroid',ctrlIndex.updateHero);
 
 
 module.exports = router;

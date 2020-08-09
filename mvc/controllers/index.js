@@ -53,10 +53,46 @@ deleteHero = function({params},res) {
     });
 }
 
+getUpdateForm = function({params},res) {
+    Hero.findById(params.heroid,(err,hero)=>{
+        if(err){
+            return res.send({error:err});
+        }
+        res.render("update-hero",{title:"Update Hero",hero:hero});
+    });
+}
+
+updateHero = function({params,body},res) {
+    Hero.findById(params.heroid,(err,hero)=>{
+        if (err) {
+            return res.send({error:err});
+        }
+        hero.name = body.name;
+        hero.description = body.desc;
+        hero.origin = body.origin;
+        hero.stats.strength = body.strength;
+        hero.stats.perception = body.perception;
+        hero.stats.endurance = body.endurance;
+        hero.stats.charisma = body.charisma;
+        hero.stats.intelligence = body.intelligence;
+        hero.stats.agility = body.agility;
+        hero.stats.luck = body.luck;
+
+        hero.save((err,updatedHero)=>{
+            if (err) {
+                res.send({error:err});
+            }
+            res.redirect("/heroes");
+        })
+    });
+}
+
 module.exports = {
     getIndex,
     getHeroesIndex,
     getHeroesIndexForm,
     createNewHero,
-    deleteHero
+    deleteHero,
+    getUpdateForm,
+    updateHero
 }
