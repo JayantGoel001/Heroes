@@ -24,8 +24,10 @@
 
 
                 <h3>Overall: <%= overall %></h3>
-                <a href="#">Update</a>
-                <a href="#">Delete</a>
+                <form>
+                    <input type="submit" class="link" value="Update">
+                    <input type="submit" class="link" value="Delete" formaction="/delete-hero/<%= heroes[i].id%>" formmethod="post">
+                </form>
 
             </div>
 

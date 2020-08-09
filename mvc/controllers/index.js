@@ -44,9 +44,19 @@ createNewHero = function({body},res) {
     });
 }
 
+deleteHero = function({params},res) {
+    Hero.findByIdAndRemove(params.heroid,(err,hero)=>{
+        if (err) {
+            return res.send({error:err});
+        }
+        res.redirect('/heroes');
+    });
+}
+
 module.exports = {
     getIndex,
     getHeroesIndex,
     getHeroesIndexForm,
-    createNewHero
+    createNewHero,
+    deleteHero
 }
