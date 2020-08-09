@@ -1,0 +1,38 @@
+<%- include('partials/header.ejs')%>
+    <a href="/heroes">Create A New Hero</a><br>
+    <a href="/create-squad">Create A New Super Squad</a>
+
+    <div class="squads">
+
+        <% for(let i = 0; i < squads.length; i++) { %>
+
+            <div class="squad">
+                <h2><small>Squad Name:</small> <%= squads[i].name %></h2>
+                <h3>Headquarter Location: <%= squads[i].hq %></h3>
+
+                <% if(squads[i].heroes.length > 0) { %>
+                    <details>
+                        <summary>Active Members: <%= squads[i].heroes.length %></summary>
+                            <ul>
+                                <% for(let j = 0; j < squads[i].heroes.length; j++) { %>
+                                    <li><%= squads[i].heroes[j].name %>
+                                        (<%= squads[i].heroes[j].overall %>)
+                                    </li>
+                                <% } %>
+                            </ul>
+                    </details>
+                <% } else { %>
+                    <h4>This Squad is Desolate</h4>
+                <% } %>
+                <h2>Squad Overall: <%= squads[i].overall %></h2>
+
+                <form action="/delete-squad/<%= squads[i]._id %>" method="post">
+                    <input type="submit" class="link" value="Disband Squad">
+                </form>
+            </div>
+
+        <% } %>
+
+    </div>
+
+<%- include('partials/footer.ejs')%>

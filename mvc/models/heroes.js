@@ -17,7 +17,9 @@ const heroSchema = new mongoose.Schema({
 });
 
 const squadSchema = new mongoose.Schema({
-    name : { type:String , required : true , unique : true}
+    name : { type:String , required : true , unique : true},
+    hq:String
 });
 
+mongoose.model('Squad',squadSchema);
 mongoose.model('Hero',heroSchema);

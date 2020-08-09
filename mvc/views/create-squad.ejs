@@ -1,0 +1,17 @@
+<%- include('partials/header.ejs')%>
+    <a href="javascript:history.back()">Go Back</a>
+    <form action="create-squad" method="post" autocomplete="off">
+        <div class="align-input-container">
+            <div class="input-group align-input">
+                <label>Name</label>
+                <input type="text" name="name" required>
+            </div>
+            <div class="input-group align-input">
+                <label>Headquarted Location</label>
+                <input type="text" name="hq">
+            </div>
+        </div>
+        <input type="submit" value="Create A Squad">
+    </form>
+
+<%- include('partials/footer.ejs')%>

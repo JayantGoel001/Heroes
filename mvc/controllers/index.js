@@ -6,6 +6,8 @@ const getIndex = router.get('/', function(req, res, next) {
 
 const mongoose = require('mongoose');
 const Hero = mongoose.model('Hero');
+const Squad = mongoose.model('Squad');
+
 
 let data = require("../../Default-Heroes");
 let heroData = data.heroes;
@@ -61,6 +63,9 @@ getUpdateForm = function({params},res) {
         if(err){
             return res.send({error:err});
         }
+        Squad.find((err)=>{
+            
+        });
         res.render("update-hero",{title:"Update Hero",hero:hero});
     });
 }
@@ -104,6 +109,39 @@ reset = function(req,res) {
     })
 }
 
+getSquadIndex = function(req,res) {
+    Squad.find((err,squads)=>{
+        if (err) {
+            res.send({error:err});
+        }
+        res.render("squads",{title:"Super Squads",squads:squads});
+    });
+}
+getSquadForm = function(req,res) {
+    res.render("create-squad",{title:"Create a Super Squad"});
+}
+createSquad = function({body},res) {
+    let squad = {name:body.name };
+    body.hq && (squad.hq=body.hq);
+    squad.hq || (squad.hp = "Unknown");
+
+    Squad.create(squad,(err)=>{
+        if (err) {
+            res.send({error:err});
+        }
+        res.redirect("/squads");
+    });
+}
+
+deleteSquad = function({params},res) {
+    Squad.findByIdAndRemove(params.squadid,(err)=>{
+        if (err) {
+            res.send({error:err});
+        }
+        res.redirect("/squads");
+    })
+}
+
 module.exports = {
     getIndex,
     getHeroesIndex,
@@ -112,5 +150,9 @@ module.exports = {
     deleteHero,
     getUpdateForm,
     updateHero,
-    reset
+    reset,
+    getSquadIndex,
+    getSquadForm,
+    createSquad,
+    deleteSquad
 }

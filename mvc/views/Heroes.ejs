@@ -1,5 +1,7 @@
 <%- include('partials/header.ejs')%>
-<a href="/create-hero">Create A New Hero</a>
+<a href="/create-hero">Create A New Hero</a><br>
+<a href="/">Go Back</a><br>
+<a href="/squads">View Super Squads</a>
     <div class="heroes-list">
         <% for(let i = 0; i < heroes.length; i++) { %>
 
@@ -28,7 +30,7 @@
                 <form>
                     <input type="submit" class="link" value="Update" formaction="/update-hero/<%= heroes[i].id %>" formmethod="get">
                     <input type="submit" class="link" value="Delete" formaction="/delete-hero/<%= heroes[i].id%>" formmethod="post">
-                    
+
                 </form>
 
             </div>

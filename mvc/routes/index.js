@@ -11,6 +11,10 @@ router.post('/delete-hero/:heroid',ctrlIndex.deleteHero);
 router.get('/update-hero/:heroid',ctrlIndex.getUpdateForm);
 router.post('/update-hero/:heroid',ctrlIndex.updateHero);
 router.get('/reset',ctrlIndex.reset);
+router.get('/squads',ctrlIndex.getSquadIndex);
+router.get('/create-squad',ctrlIndex.getSquadForm);
+router.post('/create-squad',ctrlIndex.createSquad);
+router.get("/squads/:squadid",ctrlIndex.deleteSquad);
 
 
 module.exports = router;
