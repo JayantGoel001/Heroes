@@ -23,7 +23,12 @@ getHeroesIndex = function(req,res) {
     });
 }
 getHeroesIndexForm = function(req,res) {
-    res.render('create-a-hero',{title:"Create A Hero"})
+    Squad.find((err,squads)=>{
+        if(err){
+            return res.send({error:err});
+        }
+        res.render("create-a-hero",{title:"Create a Hero",squads:squads});
+    });
 }
 createNewHero = function({body},res) {
     let hero = {
@@ -63,10 +68,12 @@ getUpdateForm = function({params},res) {
         if(err){
             return res.send({error:err});
         }
-        Squad.find((err)=>{
-            
+        Squad.find((err,squads)=>{
+            if(err){
+                return res.send({error:err});
+            }
+            res.render("update-hero",{title:"Update Hero",hero:hero,squads:squads});
         });
-        res.render("update-hero",{title:"Update Hero",hero:hero});
     });
 }
 
