@@ -140,7 +140,7 @@ getSquadIndex = function(req,res) {
         if (err) {
             res.send({error:err});
         }
-        Hero.find((err,heroes)=>{
+        Hero.find({squad:{$exists:true}},"name stats squad",{lean:true},(err,heroes)=>{
             if(err){
                 return res.send({error:err});
             }
@@ -149,12 +149,16 @@ getSquadIndex = function(req,res) {
                 squads[i].heroes = [];
                 for (var j = 0; j < heroes.length; j++) {
                     if (heroes[j].squad === squads[i].name) {
+                        heroes[j].overall = getOverall(heroes[j]);
                         squads[i].heroes.push(heroes[j]);
                         // squads[i].overall =
                         heroes.splice(j,1);
                         j--;
                     }
                 }
+
+                let overall = squads[i].heroes.reduce((acc,val) => acc+val.overall,0);
+                squads[i].overall = overall;
             }
             res.render("squads",{title:"Super Squads",squads:squads});
         });
@@ -177,12 +181,35 @@ createSquad = function({body},res) {
 }
 
 deleteSquad = function({params},res) {
-    Squad.findByIdAndRemove(params.squadid,(err)=>{
+    Squad.findByIdAndRemove(params.squadid,(err,squad)=>{
         if (err) {
             res.send({error:err});
         }
-        res.redirect("/squads");
-    })
+        Hero.find({squad:{$exists:true}},"squad",{},(err,heroes)=>{
+            if(err){
+                return res.send({error:err});
+            }
+            let promises = [];
+            for (var i = 0; i < heroes.length; i++) {
+                if (heroes[i].squad == squad.name) {
+                    heroes[i].squad = undefined;
+                    let promise = new Promise(function(resolve,reject) {
+                        heroes[i].save((err)=>{
+                            if(err){
+                                reject("error");
+                                return res.send({error:err});
+                            }
+                            resolve("Success");
+                        });
+                    });
+                    promises.push(promise);
+                }
+            }
+            Promise.all(promises).then(function() {
+                res.redirect("/squads");
+            });
+        });
+    });
 }
 
 module.exports = {
