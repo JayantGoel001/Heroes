@@ -6,7 +6,12 @@
         <% for(let i = 0; i < heroes.length; i++) { %>
 
             <div class="hero">
-                <h2>Name: <%= heroes[i].name %></h2>
+                <div class="d-flex jc-sb flex-align">
+                    <h2>Name: <%= heroes[i].name %></h2>
+                    <% if(heroes[i].squad){ %>
+                        <h4><%= heroes[i].squad %></h4>
+                    <% } %>
+                </div>
                 <h3>Origin: <%= heroes[i].origin %></h3>
                 <p><%= heroes[i].description %></p>
 

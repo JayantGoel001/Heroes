@@ -32,7 +32,11 @@
                 <select name="squad">
                     <option value="">None</option>
                     <% for(let i=0;i<squads.length;i++){ %>
-                        <option value="<%= squads[i].id %>"> <%= squads[i].name %></option>
+                        <% if(n && squads[i].name == hero.squad){ %>
+                            <option value="<%= squads[i].name %>" selected> <%= squads[i].name %></option>
+                        <% }else{ %>
+                            <option value="<%= squads[i].name %>"> <%= squads[i].name %></option>
+                        <% }%>
                     <% } %>
                 </select>
             </div>
