@@ -10,6 +10,7 @@ const Squad = mongoose.model('Squad');
 
 let data = require("../../Default-Heroes");
 let heroData = data.heroes;
+let squadData = data.squads;
 
 function getOverall(hero) {
         let {
@@ -122,17 +123,47 @@ updateHero = function({params,body},res) {
 }
 
 reset = function(req,res) {
-    Hero.deleteMany({},(err,info)=>{
-        if(err){
-            res.send({error:err});
-        }
-        Hero.insertMany(heroData,(err,info)=>{
+    let p1 = new Promise(function(resolve,reject) {
+        Hero.deleteMany({},(err)=>{
             if(err){
-                res.send({error:err});
+                reject("Error");
+                return res.send({error:err});
             }
+            resolve("Success");
+        });
+    });
+    let p2 = new Promise(function(resolve,reject) {
+        Squad.deleteMany({},(err)=>{
+            if(err){
+                reject("Error");
+                return res.send({error:err});
+            }
+            resolve("Success");
+        });
+    });
+    Promise.all([p1,p2]).then(function() {
+        let p3 = new Promise(function(resolve,reject) {
+            Hero.insertMany(heroData,(err)=>{
+                if(err){
+                    reject("Error");
+                    return res.send({error:err});
+                }
+                resolve("Success");
+            });
+        });
+        let p4 = new Promise(function(resolve,reject) {
+            Squad.insertMany(squadData,(err)=>{
+                if(err){
+                    reject("Error");
+                    return res.send({error:err});
+                }
+                resolve("Success");
+            });
+        });
+        Promise.all([p3,p4]).then(function() {
             res.redirect('/heroes');
         })
-    })
+    });
 }
 
 getSquadIndex = function(req,res) {

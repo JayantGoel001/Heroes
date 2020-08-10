@@ -55,6 +55,12 @@ let heroes = [
     squad: "The Marvels"
 }];
 
+let squads = [{
+    name: "The Marvels",
+    hq: "New York"
+}];
+
+
 function getStats(s, p, e, c, i, a, l) {
     return {
         strength: s,
@@ -69,5 +75,6 @@ function getStats(s, p, e, c, i, a, l) {
 
 
 module.exports = {
-    heroes
+    heroes,
+    squads
 }
