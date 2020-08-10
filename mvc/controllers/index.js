@@ -11,13 +11,29 @@ const Squad = mongoose.model('Squad');
 let data = require("../../Default-Heroes");
 let heroData = data.heroes;
 
+function getOverall(hero) {
+        let {
+            strength:s,
+            perception:p,
+            endurance:e,
+            charisma:c,
+            intelligence:int,
+            agility:a,
+            luck:l} = hero.stats;
+        let arr = [s, p, e, c, int, a, l];
+        let overall = arr.reduce((a, b) => a + b, 0);
+        return overall;
+}
 getHeroesIndex = function(req,res) {
-    Hero.find((err,heroes)=>{
+    Hero.find({},null,{lean:true},(err,heroes)=>{
         if (err) {
             res.send({error:err});
         }
         // res.send(heroes);
         // console.log(heroes);
+        for (var i = 0; i < heroes.length; i++) {
+            heroes[i].overall = getOverall(heroes[i]);
+        }
         res.render('heroes',{title:"Hall Of Heroes",heroes:heroes});
     });
 }
@@ -134,6 +150,7 @@ getSquadIndex = function(req,res) {
                 for (var j = 0; j < heroes.length; j++) {
                     if (heroes[j].squad === squads[i].name) {
                         squads[i].heroes.push(heroes[j]);
+                        // squads[i].overall =
                         heroes.splice(j,1);
                         j--;
                     }
