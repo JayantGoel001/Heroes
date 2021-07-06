@@ -5,7 +5,12 @@ const getIndex = (req,res)=>{
     res.render('index', { title: 'Mongoose' });
 }
 const getHeroIndex = (req,res)=>{
-    res.render('heroes', { title : "Hall Of Heroes" });
+    Hero.find((err,heroes)=>{
+        if (err){
+            return res.send({ error :err });
+        }
+        res.render('heroes', { title : "Hall Of Heroes",heroes : heroes });
+    })
 }
 const getHeroForm = (req,res)=>{
     res.render('create-hero', { title : "Create A Hero" });
@@ -25,13 +30,13 @@ const createNewHero = (req,res)=>{
             luck: body.luck
         }
     }
-    body.origin && (hero.origin === body.origin);
+    body.origin && (hero.origin = body.origin);
 
     Hero.create(hero,(err,newHero)=>{
         if (err){
             return res.send({ error : err });
         }
-        res.send(newHero);
+        res.redirect('/heroes');
     })
 }
 module.exports = {
