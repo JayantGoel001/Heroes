@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const uri = "mongodb://localhost/Heroes";
 
 mongoose.connect(uri,{useNewUrlParser : true, useUnifiedTopology :true}).then( _ =>{
-    console.log(`Mongoose Connected ${uri}`);
+    console.log(`Mongoose Connected`);
 }).catch(err =>{
     console.log(`Error : ${err}`);
 });
@@ -28,3 +28,5 @@ process.on('SIGTERM',()=>{
         process.exit(0);
     });
 });
+
+require('./Heroes');
