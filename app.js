@@ -4,8 +4,8 @@ let path = require('path');
 let cookieParser = require('cookie-parser');
 let logger = require('morgan');
 
+require('./mvc/modals/db');
 let indexRouter = require('./mvc/routes/index');
-let db = require('./mvc/modals/db');
 
 let app = express();
 

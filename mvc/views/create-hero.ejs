@@ -1,0 +1,83 @@
+<%- include('partials/header.ejs')%>
+<form action="create-hero" method="post" autocomplete="off">
+    <div class="d-flex jc-sb" style="width: 600px; align-items: center; ">
+        <div class="input-group">
+            <label>Name</label>
+            <input type="text" name="name" required >
+        </div>
+    </div>
+
+    <div class="input-group">
+        <label class="d-block">Description</label>
+        <textarea name="desc" required rows="7" cols="110"></textarea>
+    </div>
+
+    <div class="input-group">
+        <label>Origin</label>
+        <input type="text" name="origin">
+    </div>
+
+    <div class="slider-group">
+        <div class="input-group flex-align">
+            <label for="">Strength</label>
+            <input type="range" name="strength" min="0" max="100">
+            <span class="amount">50</span>
+        </div>
+
+        <div class="input-group flex-align">
+            <label for="">Perception</label>
+            <input type="range" name="perception" min="0" max="100">
+            <span class="amount">50</span>
+        </div>
+
+        <div class="input-group flex-align">
+            <label for="">Endurance</label>
+            <input type="range" name="endurance" min="0" max="100">
+            <span class="amount">50</span>
+        </div>
+
+        <div class="input-group flex-align">
+            <label for="">Charisma</label>
+            <input type="range" name="charisma" min="0" max="100">
+            <span class="amount">50</span>
+        </div>
+
+        <div class="input-group flex-align">
+            <label for="">Intelligence</label>
+            <input type="range" name="intelligence" min="0" max="100">
+            <span class="amount">50</span>
+        </div>
+
+        <div class="input-group flex-align">
+            <label for="">Agility</label>
+            <input type="range" name="agility" min="0" max="100">
+            <span class="amount">50</span>
+        </div>
+
+        <div class="input-group flex-align">
+            <label for="">Luck</label>
+            <input type="range" name="luck" min="0" max="100">
+            <span class="amount">50</span>
+        </div>
+    </div>
+    <input type="submit" name="" value="Create Hero">
+
+</form>
+
+<script type="text/javascript">
+    let sliders = document.querySelectorAll("input[type=range]");
+    Array.from(sliders).forEach((ele) => {
+        ele.addEventListener('input',()=>{
+            let value = ele.value;
+            let parent = ele.parentElement;
+            for (let i = 0; i < parent.childNodes.length; i++) {
+                if (parent.childNodes[i].className === "amount") {
+                    parent.childNodes[i].innerHTML = value;
+                    break;
+                }
+            }
+        })
+    });
+</script>
+
+<%- include('partials/footer.ejs')%>

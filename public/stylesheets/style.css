@@ -186,3 +186,7 @@ option {
 .squad *:hover {
     transform: scale(1.15);
 }
+.link{
+    margin-top: 60px;
+    display: block;
+}

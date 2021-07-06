@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+
 const statisticSchema = new mongoose.Schema({
     strength : {
         type : Number,
@@ -42,7 +43,7 @@ const statisticSchema = new mongoose.Schema({
         min : 0,
         max : 100
     }
-})
+});
 const heroSchema = new mongoose.Schema({
     name : {
         type : String,
@@ -62,13 +63,12 @@ const heroSchema = new mongoose.Schema({
         required : true
     }
 });
-
 const squadSchema = new mongoose.Schema({
     name : {
         type : String,
         required : true,
         unique : true
     }
-})
+});
 
 mongoose.model('Hero', heroSchema);
