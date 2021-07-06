@@ -40,7 +40,7 @@ input, textarea {
 input[type="submit"] {
     padding: 10px 32px; margin-top: 32px;
 }
-input .link {
+input.link {
     background-color: transparent;
     outline: none;
     border: none;
@@ -185,8 +185,4 @@ option {
 }
 .squad *:hover {
     transform: scale(1.15);
-}
-.link{
-    margin-top: 60px;
-    display: block;
 }

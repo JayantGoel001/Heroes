@@ -39,9 +39,18 @@ const createNewHero = (req,res)=>{
         res.redirect('/heroes');
     })
 }
+const deleteHero = (req,res) => {
+    Hero.findByIdAndRemove(req.params.id,(err,_)=>{
+        if (err){
+            return res.send({ error : err });
+        }
+        res.redirect("/heroes");
+    });
+}
 module.exports = {
     getIndex,
     getHeroIndex,
     getHeroForm,
-    createNewHero
+    createNewHero,
+    deleteHero
 }

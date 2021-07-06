@@ -2,29 +2,29 @@
     <h1><%= title %></h1>
     <a href="/create-hero">Create A New Hero</a>
     <div class="heroes-list">
-        <% for(let i = 0; i < heroes.length; i++) { %>
+        <% for(let hero of heroes) { %>
             <div class="hero">
-                <h2>Name: <%= heroes[i].name %></h2>
-                <h3>Origin: <%= heroes[i].origin %></h3>
-                <p><%= heroes[i].description %></p>
+                <h2>Name: <%= hero.name %></h2>
+                <h3>Origin: <%= hero.origin %></h3>
+                <p><%= hero.description %></p>
                 <ul>
-                    <li>S: <%= heroes[i].statistic.strength %></li>
-                    <li>P: <%= heroes[i].statistic.perception %></li>
-                    <li>E: <%= heroes[i].statistic.endurance %></li>
-                    <li>C: <%= heroes[i].statistic.charisma %></li>
-                    <li>I: <%= heroes[i].statistic.intelligence %></li>
-                    <li>A: <%= heroes[i].statistic.agility %></li>
-                    <li>L: <%= heroes[i].statistic.luck %></li>
+                    <li>S: <%= hero.statistic.strength %></li>
+                    <li>P: <%= hero.statistic.perception %></li>
+                    <li>E: <%= hero.statistic.endurance %></li>
+                    <li>C: <%= hero.statistic.charisma %></li>
+                    <li>I: <%= hero.statistic.intelligence %></li>
+                    <li>A: <%= hero.statistic.agility %></li>
+                    <li>L: <%= hero.statistic.luck %></li>
                 </ul>
                 <%
-                    let {strength:s, perception:p, endurance:e, charisma:c, intelligence:int, agility:a, luck:l} = heroes[i].statistic;
-                    let arr = [s, p, e, c, int, a, l];
+                    let {strength:s, perception:p, endurance:e, charisma:c, intelligence:i, agility:a, luck:l} = hero.statistic;
+                    let arr = [s, p, e, c, i, a, l];
                     let overall = arr.reduce((a, b) => a + b, 0);
                 %>
                 <h3>Overall: <%= overall %></h3>
                 <form>
                     <input type="submit" class="link" value="Update">
-                    <input type="submit" class="link" value="Delete" formaction="/delete-hero/<%= heroes[i].id%>" formmethod="post">
+                    <input type="submit" class="link" value="Delete" formaction="/delete-hero/<%= hero.id %>" formmethod="post">
                 </form>
             </div>
         <% } %>
