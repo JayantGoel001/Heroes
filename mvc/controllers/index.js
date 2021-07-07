@@ -5,19 +5,33 @@ const Squad = mongoose.model('Squad');
 const data = require('../../data');
 const heroesData = data.heroes;
 
+function getOverall(hero) {
+    let { strength:s, perception:p, endurance:e, charisma:c, intelligence:i, agility:a, luck:l } = hero.statistic;
+    let arr = [s, p, e, c, i, a, l];
+    return arr.reduce((a, b) => a + b, 0);
+}
+
 const getIndex = (req,res)=>{
     res.render('index', { title: 'Mongoose' });
 }
 const getHeroIndex = (req,res)=>{
-    Hero.find((err,heroes)=>{
+    Hero.find({},null,{ lean:true },(err,heroes)=>{
         if (err){
             return res.send({ error :err });
+        }
+        for (const hero of heroes) {
+            hero.overall = getOverall(hero);
         }
         res.render('heroes', { title : "Hall Of Heroes",heroes : heroes });
     })
 }
 const getHeroForm = (req,res)=>{
-    res.render('create-hero', { title : "Create A Hero" });
+    Squad.find((err,squads)=>{
+        if(err){
+            return res.send({ error : err });
+        }
+        res.render('create-hero', { title : "Create A Hero" ,squads : squads});
+    })
 }
 
 const createNewHero = (req,res)=>{
@@ -113,22 +127,27 @@ const getSquadsIndex = (req,res)=>{
         if(err){
             return res.send({ error : err });
         }
-        Hero.find((err,heroes)=>{
-            if(err){
-                return res.send({ error : err });
+        Hero.find({squad : { $exists : true } },null,{lean:true},(err,heroes)=>{
+            if(err) {
+                return res.send({error: err});
             }
             for (const squad of squads) {
                 squad.heroes = [];
+                squad.overall = 0;
                 for (let j = 0;j<heroes.length;j++) {
-                    if (hero.squad === squad){
-                        squad.heroes.push(hero);
+                    if (heroes[j].squad === squad.name){
+                        heroes[j].overall = getOverall(heroes[j]);
+
+                        squad.heroes.push(heroes[j]);
+                        squad.overall += heroes[j].overall;
+
                         heroes.splice(j,1);
                         j--;
                     }
                 }
             }
+            res.render("squads",{ title:"Super Squads" ,squads : squads});
         })
-        res.render("squads",{ title:"Super Squads" ,squads : squads});
     });
 }
 const getSquadsForm = (req,res)=>{
@@ -146,11 +165,33 @@ const createSquad = (req,res)=>{
     });
 }
 const deleteSquad = (req,res)=>{
-    Squad.findByIdAndRemove(req.params.id,(err)=>{
+    Squad.findByIdAndRemove(req.params.id,(err,squad)=>{
         if(err){
             return res.send({ error : err });
         }
-        res.redirect("/squads");
+        Hero.find({squad : {$exists : true} },"squad",{},(err,heroes)=>{
+            if(err){
+                return res.send({ error : err });
+            }
+            let promises = [];
+            for (const hero of heroes) {
+                if (hero.squad === squad.name){
+                    hero.squad = undefined;
+                    let promise = new Promise((resolve, reject)=>{
+                        hero.save().then(_ =>{
+                            resolve("Success");
+                        }).catch((err)=>{
+                            reject("Error")
+                            return res.send({ error:err });
+                        })
+                    });
+                    promises.push(promise);
+                }
+            }
+            Promise.all(promises).then(()=>{
+                res.redirect("/squads");
+            })
+        });
     })
 }
 module.exports = {
