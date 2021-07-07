@@ -36,6 +36,7 @@ const createNewHero = (req,res)=>{
         }
     }
     body.origin && (hero.origin = body.origin);
+    body.squad && (hero.squad = body.squad);
 
     Hero.create(hero,(err,_)=>{
         if (err){
@@ -57,7 +58,12 @@ const getUpdateForm = (req,res)=>{
         if (err){
             return res.send({ error : err });
         }
-        res.render("update-hero", { title : "Update Hero", hero : hero });
+        Squad.find((err,squads)=>{
+            if(err){
+                return res.send({ error : err });
+            }
+            res.render("update-hero", { title : "Update Hero", hero : hero ,squads:squads});
+        })
     })
 }
 const updateHero = (req,res)=>{
@@ -75,6 +81,9 @@ const updateHero = (req,res)=>{
         hero.statistic.intelligence = req.body.intelligence;
         hero.statistic.agility = req.body.agility;
         hero.statistic.luck = req.body.luck;
+        hero.squad = undefined;
+
+        req.body.squad && (hero.squad = req.body.squad);
 
         hero.save((err,_)=>{
             if (err){
@@ -121,7 +130,14 @@ const createSquad = (req,res)=>{
         res.redirect("/squads");
     });
 }
-
+const deleteSquad = (req,res)=>{
+    Squad.findByIdAndRemove(req.params.id,(err)=>{
+        if(err){
+            return res.send({ error : err });
+        }
+        res.redirect("/squads");
+    })
+}
 module.exports = {
     getIndex,
     getHeroIndex,
@@ -133,5 +149,6 @@ module.exports = {
     reset,
     getSquadsIndex,
     getSquadsForm,
-    createSquad
+    createSquad,
+    deleteSquad
 }

@@ -61,7 +61,8 @@ const heroSchema = new mongoose.Schema({
     statistic :{
         type : statisticSchema,
         required : true
-    }
+    },
+    squad : String
 });
 const squadSchema = new mongoose.Schema({
     name : {

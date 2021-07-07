@@ -8,6 +8,7 @@ router.get('/', indexCtrl.getIndex);
 router.get('/squads',indexCtrl.getSquadsIndex);
 router.get('/create-squad',indexCtrl.getSquadsForm);
 router.post('/create-squad',indexCtrl.createSquad);
+router.post('/delete-squad/:id',indexCtrl.deleteSquad);
 
 router.get('/heroes', indexCtrl.getHeroIndex);
 router.get('/create-hero', indexCtrl.getHeroForm);

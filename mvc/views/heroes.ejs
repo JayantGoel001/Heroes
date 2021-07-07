@@ -8,9 +8,12 @@
     <div class="heroes-list">
         <% for(let hero of heroes) { %>
             <div class="hero">
-                <h2>Name: <%= hero.name %></h2>
-                <h3>Origin: <%= hero.origin %></h3>
-                <p><%= hero.description %></p>
+                <div class="d-flex jc-sb flex-align">
+                    <h2>Name: <%= hero.name %></h2>
+                    <% if(hero.squad){ %>
+                        <h4><%= hero.squad %></h4>
+                    <% } %>
+                </div>
                 <ul>
                     <li>S: <%= hero.statistic.strength %></li>
                     <li>P: <%= hero.statistic.perception %></li>
