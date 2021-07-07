@@ -71,5 +71,6 @@ function getStats(s, p, e, c, i, a, l) {
     }
 }
 module.exports = {
-    heroes
+    heroes,
+    squads
 }

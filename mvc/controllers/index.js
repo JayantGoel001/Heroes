@@ -4,6 +4,7 @@ const Squad = mongoose.model('Squad');
 
 const data = require('../../data');
 const heroesData = data.heroes;
+const squadData = data.squads;
 
 function getOverall(hero) {
     let { strength:s, perception:p, endurance:e, charisma:c, intelligence:i, agility:a, luck:l } = hero.statistic;
@@ -109,16 +110,47 @@ const updateHero = (req,res)=>{
 }
 
 const reset = (req,res)=>{
-    Hero.deleteMany({},(err,_)=>{
-        if (err){
-            return res.send({ error:err });
-        }
-        Hero.insertMany(heroesData).then(_ => {
-            res.redirect("/heroes");
-        }).catch(()=>{
+    let p1 = new Promise((resolve,reject)=>{
+        Hero.deleteMany({},(err,_)=>{
             if (err){
+                reject("Error");
                 return res.send({ error:err });
             }
+            resolve("Success");
+        });
+    });
+    let p2 = new Promise((resolve, reject)=>{
+        Squad.deleteMany({},(err,_)=>{
+            if(err){
+                reject("Error");
+                return res.send({ error : err });
+            }
+            resolve("Success");
+        });
+    });
+    Promise.all([p1,p2]).then(()=> {
+        let p3 = new Promise((resolve, reject)=>{
+            Hero.insertMany(heroesData).then(_ => {
+                resolve("Success");
+            }).catch(() => {
+                if (err) {
+                    reject("Error");
+                    return res.send({error: err});
+                }
+            });
+        });
+        let p4 = new Promise((resolve, reject)=>{
+            Squad.insertMany(squadData).then(_ => {
+                resolve("Success");
+            }).catch(() => {
+                if (err) {
+                    reject("Error");
+                    return res.send({error: err});
+                }
+            });
+        });
+        Promise.all([p3,p4]).then(()=>{
+            res.redirect("/heroes");
         })
     });
 }
