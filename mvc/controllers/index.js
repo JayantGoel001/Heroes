@@ -47,10 +47,44 @@ const deleteHero = (req,res) => {
         res.redirect("/heroes");
     });
 }
+const getUpdateForm = (req,res)=>{
+    Hero.findById(req.params.id,(err,hero)=>{
+        if (err){
+            return res.send({ error : err });
+        }
+        res.render("update-hero", { title : "Update Hero", hero : hero });
+    })
+}
+const updateHero = (req,res)=>{
+    Hero.findById(req.params.id,(err,hero)=>{
+        if (err){
+            return res.send({ error : err });
+        }
+        hero.name = req.body.name;
+        hero.description = req.body.desc;
+        hero.origin = req.body.origin;
+        hero.statistic.strength = req.body.strength;
+        hero.statistic.perception = req.body.perception;
+        hero.statistic.endurance = req.body.endurance;
+        hero.statistic.charisma = req.body.charisma;
+        hero.statistic.intelligence = req.body.intelligence;
+        hero.statistic.agility = req.body.agility;
+        hero.statistic.luck = req.body.luck;
+
+        hero.save((err,updateHero)=>{
+            if (err){
+                return res.send({ error : err });
+            }
+            res.redirect("/heroes");
+        })
+    })
+}
 module.exports = {
     getIndex,
     getHeroIndex,
     getHeroForm,
     createNewHero,
-    deleteHero
+    deleteHero,
+    getUpdateForm,
+    updateHero
 }
