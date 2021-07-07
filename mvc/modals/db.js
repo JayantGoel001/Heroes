@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 
-const uri = "mongodb://localhost/Heroes";
+let uri = "mongodb://localhost/Heroes";
+if(process.env.MODE === "PRODUCTION") {
+    uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.nakgk.mongodb.net/Heroes?retryWrites=true&w=majority`;
+}
 
 mongoose.connect(uri,{useNewUrlParser : true, useUnifiedTopology :true ,useCreateIndex:true}).then( _ =>{
     console.log(`Mongoose Connected`);
