@@ -1,6 +1,10 @@
 <%- include('partials/header.ejs'); %>
     <h1><%= title %></h1>
+    <a href="javascript:history.back()">Go Back</a>
+    <br>
     <a href="/create-hero">Create A New Hero</a>
+    <br>
+    <a href="/squads">View Super Squads</a>
     <div class="heroes-list">
         <% for(let hero of heroes) { %>
             <div class="hero">

@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Hero = mongoose.model('Hero');
+const Squad = mongoose.model('Squad');
 
 const data = require('../../data');
 const heroesData = data.heroes;
@@ -18,6 +19,7 @@ const getHeroIndex = (req,res)=>{
 const getHeroForm = (req,res)=>{
     res.render('create-hero', { title : "Create A Hero" });
 }
+
 const createNewHero = (req,res)=>{
     let body = req.body;
     let hero = {
@@ -84,17 +86,39 @@ const updateHero = (req,res)=>{
 }
 
 const reset = (req,res)=>{
-    Hero.deleteMany({},(err,info)=>{
+    Hero.deleteMany({},(err,_)=>{
         if (err){
             return res.send({ error:err });
         }
-        Hero.insertMany(heroesData).then(r => {
+        Hero.insertMany(heroesData).then(_ => {
             res.redirect("/heroes");
         }).catch(()=>{
             if (err){
                 return res.send({ error:err });
             }
         })
+    });
+}
+const getSquadsIndex = (req,res)=>{
+    Squad.find((err,squads)=>{
+        if(err){
+            return res.send({ error : err });
+        }
+        res.render("squads",{ title:"Super Squads" ,squads : squads});
+    });
+}
+const getSquadsForm = (req,res)=>{
+    res.render("create-squad",{ title:"Super Squads" });
+}
+const createSquad = (req,res)=>{
+    let squad = { name : body.name };
+    squad.hq = body.hq? body.hq : "Unknown";
+
+    Squad.create(squad,(err,_)=>{
+        if (err){
+            return res.send({error : err});
+        }
+        res.redirect("/squads");
     });
 }
 
@@ -106,5 +130,8 @@ module.exports = {
     deleteHero,
     getUpdateForm,
     updateHero,
-    reset
+    reset,
+    getSquadsIndex,
+    getSquadsForm,
+    createSquad
 }

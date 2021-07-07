@@ -4,8 +4,12 @@ let router = express.Router();
 const indexCtrl = require('../controllers/index');
 
 router.get('/', indexCtrl.getIndex);
-router.get('/heroes', indexCtrl.getHeroIndex);
 
+router.get('/squads',indexCtrl.getSquadsIndex);
+router.get('/create-squad',indexCtrl.getSquadsForm);
+router.post('/create-squad',indexCtrl.createSquad);
+
+router.get('/heroes', indexCtrl.getHeroIndex);
 router.get('/create-hero', indexCtrl.getHeroForm);
 router.post('/create-hero', indexCtrl.createNewHero);
 

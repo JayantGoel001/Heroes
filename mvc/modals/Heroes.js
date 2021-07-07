@@ -68,7 +68,9 @@ const squadSchema = new mongoose.Schema({
         type : String,
         required : true,
         unique : true
-    }
+    },
+    hq : String
 });
 
 mongoose.model('Hero', heroSchema);
+mongoose.model('Squad', squadSchema);
