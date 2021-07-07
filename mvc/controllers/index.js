@@ -109,10 +109,25 @@ const reset = (req,res)=>{
     });
 }
 const getSquadsIndex = (req,res)=>{
-    Squad.find((err,squads)=>{
+    Squad.find({},null,{lean : true},(err,squads)=>{
         if(err){
             return res.send({ error : err });
         }
+        Hero.find((err,heroes)=>{
+            if(err){
+                return res.send({ error : err });
+            }
+            for (const squad of squads) {
+                squad.heroes = [];
+                for (let j = 0;j<heroes.length;j++) {
+                    if (hero.squad === squad){
+                        squad.heroes.push(hero);
+                        heroes.splice(j,1);
+                        j--;
+                    }
+                }
+            }
+        })
         res.render("squads",{ title:"Super Squads" ,squads : squads});
     });
 }
