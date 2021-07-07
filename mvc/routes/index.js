@@ -14,4 +14,6 @@ router.post('/delete-hero/:id', indexCtrl.deleteHero);
 router.get('/update-hero/:id', indexCtrl.getUpdateForm);
 router.post('/update-hero/:id', indexCtrl.updateHero);
 
+router.get('/reset',indexCtrl.reset);
+
 module.exports = router;

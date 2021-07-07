@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 const Hero = mongoose.model('Hero');
 
+const data = require('../../data');
+const heroesData = data.heroes;
+
 const getIndex = (req,res)=>{
     res.render('index', { title: 'Mongoose' });
 }
@@ -32,7 +35,7 @@ const createNewHero = (req,res)=>{
     }
     body.origin && (hero.origin = body.origin);
 
-    Hero.create(hero,(err,newHero)=>{
+    Hero.create(hero,(err,_)=>{
         if (err){
             return res.send({ error : err });
         }
@@ -71,7 +74,7 @@ const updateHero = (req,res)=>{
         hero.statistic.agility = req.body.agility;
         hero.statistic.luck = req.body.luck;
 
-        hero.save((err,updateHero)=>{
+        hero.save((err,_)=>{
             if (err){
                 return res.send({ error : err });
             }
@@ -79,6 +82,22 @@ const updateHero = (req,res)=>{
         })
     })
 }
+
+const reset = (req,res)=>{
+    Hero.deleteMany({},(err,info)=>{
+        if (err){
+            return res.send({ error:err });
+        }
+        Hero.insertMany(heroesData).then(r => {
+            res.redirect("/heroes");
+        }).catch(()=>{
+            if (err){
+                return res.send({ error:err });
+            }
+        })
+    });
+}
+
 module.exports = {
     getIndex,
     getHeroIndex,
@@ -86,5 +105,6 @@ module.exports = {
     createNewHero,
     deleteHero,
     getUpdateForm,
-    updateHero
+    updateHero,
+    reset
 }
