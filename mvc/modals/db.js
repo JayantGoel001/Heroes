@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 let uri = "mongodb://localhost/Heroes";
-if(process.env.MODE === "PRODUCTION") {
+if(process.env.NODE_ENV === "PRODUCTION") {
     uri = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@cluster0.nakgk.mongodb.net/Heroes?retryWrites=true&w=majority`;
 }
 
