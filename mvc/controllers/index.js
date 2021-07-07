@@ -111,8 +111,8 @@ const getSquadsForm = (req,res)=>{
     res.render("create-squad",{ title:"Super Squads" });
 }
 const createSquad = (req,res)=>{
-    let squad = { name : body.name };
-    squad.hq = body.hq? body.hq : "Unknown";
+    let squad = { name : req.body.name };
+    squad.hq = req.body.hq? req.body.hq : "Unknown";
 
     Squad.create(squad,(err,_)=>{
         if (err){
